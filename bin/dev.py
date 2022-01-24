@@ -34,9 +34,9 @@ def start_container():
         path=PATH_TO_PROCESS, tag="youtube-discord-alert"
     )
     for log in list(logs_json):
-        log_clean = log.get("stream", "").strip()
-        if log_clean:
-            print(log_clean)
+        if "stream" in log:
+            sys.stdout.write(log["stream"])
+
     DOCKER_CONTAINER = DOCKER_CLIENT.containers.run(
         image.id, detach=True, auto_remove=True
     )
