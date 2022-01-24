@@ -9,7 +9,7 @@ LOGGER = logging.getLogger(__name__)
 
 def execution_loop():
     while True:
-        LOGGER.info("Hello World!")
+        LOGGER.info("Hello World!2")
         sleep(1)
 
 
