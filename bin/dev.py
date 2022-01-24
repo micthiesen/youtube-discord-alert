@@ -21,7 +21,6 @@ DOCKER_CONTAINER = None
 PATH_TO_PROCESS = str(Path(__name__).parent.absolute())
 PATH_TO_OBSERVE = str(Path(__name__).parent.joinpath("src").absolute())
 
-RESTART_COUNT = 1
 LIMITER = Limiter(RequestRate(1, Duration.SECOND))
 
 
@@ -38,33 +37,36 @@ def start_container():
             sys.stdout.write(log["stream"])
 
     DOCKER_CONTAINER = DOCKER_CLIENT.containers.run(
-        image.id, detach=True, auto_remove=True
+        image.id, detach=True, remove=True, auto_remove=True
     )
 
     container = DOCKER_CONTAINER
+    print(f"Created container {container.short_id}")
 
     def print_container_logs():
-        for log in container.logs(stream=True):
-            sys.stdout.write(log.decode("utf-8"))
+        try:
+            for log in container.logs(stream=True):
+                sys.stdout.write(log.decode("utf-8"))
+        except docker.errors.APIError as err:
+            print(f"Reading container logs failed: {err}")
 
     threading.Thread(target=print_container_logs).start()
 
 
 def restart_container(event_path, event_type):
-    global RESTART_COUNT
     try:
         LIMITER.try_acquire("process")
     except BucketFullException:
         return
-    print(f"\n{event_path} {event_type} - performing restart {RESTART_COUNT}")
-    RESTART_COUNT += 1
+    print(f"{event_path} {event_type}")
     start_container()
 
 
 def kill_container():
     global DOCKER_CONTAINER
     if DOCKER_CONTAINER:
-        DOCKER_CONTAINER.kill()
+        print(f"Stopping and removing container {DOCKER_CONTAINER.short_id}")
+        DOCKER_CONTAINER.remove(force=True)
 
 
 class SrcChangeHandler(PatternMatchingEventHandler):
