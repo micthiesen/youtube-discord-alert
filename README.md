@@ -4,6 +4,13 @@ Send a message to a Discord channel when new videos are posted to a list of YouT
 
 ## Running the App
 
-Requires that you have Docker installed: `docker build -t yda . && docker run yda`
+The app can be deployed using Docker: `docker build -t youtube-discord-alert . && docker run --rm youtube-discord-alert`
 
-The app will continuously check for new videos until it is stopped.
+## Developing
+
+Requirements:
+
+- Docker
+- Python 3.10 and the dev packages: `pip install -r requirements-dev.txt`
+
+Run `./bin/dev.py` and the app will automatically restart when source files change.
