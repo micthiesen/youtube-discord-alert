@@ -3,7 +3,8 @@ import traceback
 from time import sleep
 
 from config import CONFIG
-from history import add_to_history, check_history
+from discord import notify_discord
+from history import mark_video_as_seen, video_already_seen
 from youtube import get_latest_channel_videos
 
 
@@ -28,8 +29,10 @@ def check_for_updates(channel_id: str) -> None:
     LOGGER.info(f"Checking for updates on channel {channel_id}")
     videos = get_latest_channel_videos(channel_id)
     for video in videos:
-        check_history(channel_id, video.snippet.resourceId.videoId)
-        add_to_history(channel_id, video.snippet.resourceId.videoId)
+        if video_already_seen(channel_id, video.snippet.resourceId.videoId):
+            continue
+        notify_discord(video)
+        mark_video_as_seen(channel_id, video.snippet.resourceId.videoId)
 
 
 if __name__ == "__main__":

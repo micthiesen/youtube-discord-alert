@@ -8,12 +8,12 @@ HISTORY_FILE = "/data/history.json"
 LOGGER = logging.getLogger(__name__)
 
 
-def check_history(channel_id: str, video_id: str) -> bool:
+def video_already_seen(channel_id: str, video_id: str) -> bool:
     history = read_history_safe()
     return video_id in history.get(channel_id, [])
 
 
-def add_to_history(channel_id: str, video_id: str) -> None:
+def mark_video_as_seen(channel_id: str, video_id: str) -> None:
     history = read_history_safe()
     history[channel_id] = history.get(channel_id, [])
     if video_id in history[channel_id]:
