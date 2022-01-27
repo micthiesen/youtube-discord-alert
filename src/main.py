@@ -1,8 +1,10 @@
 import logging
+import traceback
 from time import sleep
 
 from config import CONFIG
-from youtube import get_subscription_by_channel
+from history import add_to_history, check_history
+from youtube import get_latest_channel_videos
 
 
 LOGGING_FORMAT = "[%(levelname)s] [%(filename)s:%(lineno)d] <%(funcName)s> %(message)s"
@@ -16,15 +18,18 @@ def execution_loop():
             try:
                 check_for_updates(channel_id)
             except Exception as err:
-                LOGGER.error(f"Error while checking for updates: {err}")
+                LOGGER.error(traceback.format_exc()[:-1])
 
         LOGGER.info(f"Sleeping for {CONFIG.poll_interval} seconds...")
         sleep(CONFIG.poll_interval)
 
 
 def check_for_updates(channel_id: str) -> None:
-    subscriptions = get_subscription_by_channel(channel_id)
     LOGGER.info(f"Checking for updates on channel {channel_id}")
+    videos = get_latest_channel_videos(channel_id)
+    for video in videos:
+        check_history(channel_id, video.snippet.resourceId.videoId)
+        add_to_history(channel_id, video.snippet.resourceId.videoId)
 
 
 if __name__ == "__main__":

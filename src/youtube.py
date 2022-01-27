@@ -1,16 +1,27 @@
 from typing import List
 
-from pyyoutube import Api, Subscription
+from pyyoutube import Api, PlaylistItem
+
+from config import CONFIG
 
 
-API = Api()
-PARTS_DEFAULT = "id,snippet"
-COUNT_DEFAULT = 10
+API = Api(api_key=CONFIG.youtube_api_key)
 
 
-def get_subscription_by_channel(
-    channel_id: str, parts: str = PARTS_DEFAULT, count: int = COUNT_DEFAULT
-) -> List[Subscription]:
-    return API.get_subscription_by_channel(
-        channel_id=channel_id, parts=parts, count=count
-    ).items
+class YoutubeError(Exception):
+    pass
+
+
+def get_latest_channel_videos(
+    channel_id: str, count: int = CONFIG.latest_channel_videos_count
+) -> List[PlaylistItem]:
+    channel_list_response = API.get_channel_info(channel_id=channel_id)
+    try:
+        channel = channel_list_response.items[0]
+    except IndexError:
+        raise YoutubeError(f"Channel {channel_id} does not exist")
+    uploads_playlist = channel.contentDetails.relatedPlaylists.uploads
+    playlist_item_response = API.get_playlist_items(
+        playlist_id=uploads_playlist, count=count
+    )
+    return playlist_item_response.items
