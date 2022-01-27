@@ -37,7 +37,11 @@ def start_container():
             sys.stdout.write(log["stream"])
 
     DOCKER_CONTAINER = DOCKER_CLIENT.containers.run(
-        image.id, detach=True, remove=True, auto_remove=True
+        image.id,
+        detach=True,
+        remove=True,
+        auto_remove=True,
+        environment={"POLL_INTERVAL": "5"},
     )
 
     container = DOCKER_CONTAINER
