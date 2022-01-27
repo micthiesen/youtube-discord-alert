@@ -2,15 +2,15 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag youtube-discord-alert:$(date +%s)
+      - uses: actions/checkout@v2
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag youtube-discord-alert:$(date +%s) --tag youtube-discord-alert:latest
+      - name: Push the Docker image
+        run: docker push --all-tags ghcr.io/micthiesen/youtube-discord-alert
