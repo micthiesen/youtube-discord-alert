@@ -24,4 +24,4 @@ def get_latest_channel_videos(
     playlist_item_response = API.get_playlist_items(
         playlist_id=uploads_playlist, count=count
     )
-    return playlist_item_response.items
+    return list(reversed(playlist_item_response.items))
