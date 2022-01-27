@@ -10,10 +10,13 @@ import threading
 from pathlib import Path
 
 import docker
+from dotenv import dotenv_values
 from pyrate_limiter import BucketFullException, Duration, Limiter, RequestRate
 from watchdog.observers import Observer
 from watchdog.events import PatternMatchingEventHandler
 
+
+ENVIRONMENT = dotenv_values(".env.local")
 
 DOCKER_CLIENT = docker.from_env()
 DOCKER_CONTAINER = None
@@ -41,7 +44,7 @@ def start_container():
         detach=True,
         remove=True,
         auto_remove=True,
-        environment={"POLL_INTERVAL": "5"},
+        environment=ENVIRONMENT,
     )
 
     container = DOCKER_CONTAINER
@@ -70,7 +73,10 @@ def kill_container():
     global DOCKER_CONTAINER
     if DOCKER_CONTAINER:
         print(f"Stopping and removing container {DOCKER_CONTAINER.short_id}")
-        DOCKER_CONTAINER.remove(force=True)
+        try:
+            DOCKER_CONTAINER.remove(force=True)
+        except docker.errors.APIError as err:
+            pass
 
 
 class SrcChangeHandler(PatternMatchingEventHandler):
@@ -85,6 +91,7 @@ class SrcChangeHandler(PatternMatchingEventHandler):
 
 
 if __name__ == "__main__":
+    print(f"Using environment: {dict(ENVIRONMENT)}")
     start_container()
 
     event_handler = SrcChangeHandler(patterns=["*.py"])
