@@ -9,7 +9,7 @@ from youtube import get_latest_channel_videos
 
 
 LOGGING_FORMAT = "[%(levelname)s] [%(filename)s:%(lineno)d] <%(funcName)s> %(message)s"
-logging.basicConfig(format=LOGGING_FORMAT, level=logging.DEBUG)
+logging.basicConfig(format=LOGGING_FORMAT, level=CONFIG.log_level_parsed)
 LOGGER = logging.getLogger(__name__)
 
 
