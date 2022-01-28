@@ -4,7 +4,7 @@ from time import sleep
 
 from config import CONFIG
 from discord import notify_discord
-from history import mark_video_as_seen, video_already_seen
+from history import History
 from youtube import get_latest_channel_videos
 
 
@@ -14,25 +14,31 @@ LOGGER = logging.getLogger(__name__)
 
 
 def execution_loop():
+    history = History()
     while True:
         for channel_id in CONFIG.channel_ids:
             try:
-                check_for_updates(channel_id)
-            except Exception as err:
+                check_for_updates(history, channel_id)
+            except Exception:
                 LOGGER.error(traceback.format_exc()[:-1])
 
         LOGGER.info(f"Sleeping for {CONFIG.poll_interval} seconds...")
         sleep(CONFIG.poll_interval)
 
 
-def check_for_updates(channel_id: str) -> None:
+def check_for_updates(history: History, channel_id: str) -> None:
     LOGGER.info(f"Checking for updates on channel {channel_id}")
+    history.ensure_channel_exists(channel_id)
     videos = get_latest_channel_videos(channel_id)
     for video in videos:
-        if video_already_seen(channel_id, video.snippet.resourceId.videoId):
+        video_id = video.snippet.resourceId.videoId
+        published_at = video.snippet.publishedAt
+        if history.video_before_channel_added(channel_id, published_at):
+            continue
+        if history.video_already_seen(channel_id, video_id):
             continue
         notify_discord(video)
-        mark_video_as_seen(channel_id, video.snippet.resourceId.videoId)
+        history.mark_video_as_seen(channel_id, video_id)
 
 
 if __name__ == "__main__":
