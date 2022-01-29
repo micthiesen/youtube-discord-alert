@@ -6,7 +6,7 @@ Send a message to a Discord channel when new videos are posted by certain YouTub
 
 The app is distributed as the Docker image `ghcr.io/micthiesen/youtube-discord-alert`.
 
-It's useful to mount a data volume as a history file is maintained to prevent posting the same video more than once to Discord.
+It's useful to mount a data volume as a history file is maintained to prevent posting the same video more than once.
 
 To find a YouTube channel ID, [try using this](https://commentpicker.com/youtube-channel-id.php).
 
