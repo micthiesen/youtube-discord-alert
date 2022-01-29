@@ -46,9 +46,9 @@ yda:
 | -------------------- | ---- | ------------- | -------- | ----------- |
 | `LOG_LEVEL` | `DEBUG` \| `INFO` \| `WARNING` \| `ERROR` \| `CRITICAL` \| | `INFO` | No | Detail of logs |
 | `POLL_INTERVAL` | Integer | `300` | No | How often to check for new videos, in seconds |
-| `CHANNEL_IDS` | List of strings (JSON formatted) | `[]` | No | The channel IDs to monitor |
-| `DISCORD_WEBHOOK` | String | N/A | Yes | A Discord webhook for a channel |
-| `YOUTUBE_API_KEY` | String | N/A | Yes | A YouTube API key |
+| `CHANNEL_IDS` | List of strings (JSON formatted) | `[]` | No | Channel IDs to monitor |
+| `DISCORD_WEBHOOK` | String | N/A | Yes | Discord webhook for a channel |
+| `YOUTUBE_API_KEY` | String | N/A | Yes | YouTube API key |
 | `LATEST_CHANNEL_VIDEOS_COUNT` | Integer | `10` | No | How many videos to retrieve per channel when polling |
 | `MAX_HISTORY_PER_CHANNEL` | Integer | `20` | No | How many videos to keep track of per channel (to prevent duplicate posts). Should always be greater than `LATEST_CHANNEL_VIDEOS_COUNT` |
 
