@@ -1,6 +1,6 @@
 # YouTube Discord Alert
 
-Send a message to a Discord channel when new videos are posted to a list of YouTube channels.
+Send a message to a Discord channel when new videos are posted by certain YouTube channels.
 
 ## Running the App
 
@@ -9,8 +9,17 @@ The app is distributed as the Docker image `ghcr.io/micthiesen/youtube-discord-a
 ### Using Docker
 
 ```bash
-docker run \
+docker run -d \
+  --name=yda \
+  -e CHANNEL_IDS=["UCFrZFkoK9-cZf6LtOD0a_uw", "UCqIDB2oovYTOHx1lbMQxjtg"] \
+  -e DISCORD_WEBHOOK=https://discordapp.com/api/webhooks/123/ABC \
+  -e YOUTUBE_API_KEY=CHanGeMe \
+  -v /path/to/data:/data \
+  --restart unless-stopped \
+  ghcr.io/micthiesen/youtube-discord-alert
 ```
+
+It's useful to mount a data volume as a history file is maintained to prevent posting the same video more than once to Discord.
 
 ### Using Docker Compose
 
@@ -18,13 +27,13 @@ docker run \
 yda:
   image: ghcr.io/micthiesen/youtube-discord-alert
   container_name: yda
-  restart: unless-stopped
   environment:
     - CHANNEL_IDS=["UCFrZFkoK9-cZf6LtOD0a_uw", "UCqIDB2oovYTOHx1lbMQxjtg"]
     - DISCORD_WEBHOOK=https://discordapp.com/api/webhooks/123/ABC
     - YOUTUBE_API_KEY=CHanGeMe
   volumes:
-    - ./volumes/yda:/data
+    - /path/to/data:/data
+  restart: unless-stopped
 ```
 
 ### Options / Environment Variables
@@ -38,8 +47,6 @@ yda:
 | `YOUTUBE_API_KEY` | String | N/A | Yes | A YouTube API key |
 | `LATEST_CHANNEL_VIDEOS_COUNT` | Integer | `10` | No | How many videos to retrieve per channel when polling |
 | `MAX_HISTORY_PER_CHANNEL` | Integer | `20` | No | How many videos to keep track of per channel (to prevent duplicate posts). Should always be greater than `LATEST_CHANNEL_VIDEOS_COUNT` |
-
-
 
 ## Developing
 
