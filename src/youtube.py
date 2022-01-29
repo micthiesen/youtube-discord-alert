@@ -18,7 +18,7 @@ def get_latest_channel_videos(
     channel_list_response = API.get_channel_info(channel_id=channel_id)
     try:
         channel = channel_list_response.items[0]
-    except IndexError:
+    except (IndexError, TypeError):
         raise YoutubeError(f"Channel {channel_id} does not exist")
     uploads_playlist = channel.contentDetails.relatedPlaylists.uploads
     playlist_item_response = API.get_playlist_items(
