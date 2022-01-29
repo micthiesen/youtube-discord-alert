@@ -8,7 +8,7 @@ The app is distributed as the Docker image `ghcr.io/micthiesen/youtube-discord-a
 
 It's useful to mount a data volume as a history file is maintained to prevent posting the same video more than once to Discord.
 
-To find a YouTube channel ID, [try using this](https://commentpicker.com/youtube-channel-id.php)
+To find a YouTube channel ID, [try using this](https://commentpicker.com/youtube-channel-id.php).
 
 To create a Discord webhook, [see here](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks).
 
