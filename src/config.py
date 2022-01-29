@@ -15,7 +15,7 @@ class LogLevel(str, Enum):
 
 class Settings(BaseSettings):
     log_level: LogLevel = LogLevel.INFO
-    poll_interval: int = 60
+    poll_interval: int = 300
     channel_ids: List[str] = []
     discord_webhook: str
     youtube_api_key: str
