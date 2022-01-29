@@ -10,7 +10,7 @@ It's useful to mount a data volume as a history file is maintained to prevent po
 
 To create a Discord webhook, [see here](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks).
 
-To create a YouTube API key, [see here](https://developers.google.com/youtube/registering_an_application). Create an API key (NOT OAuth) for the YouTube Data API.
+To create a YouTube API key, [see here](https://developers.google.com/youtube/registering_an_application). Create an API key for the YouTube Data API.
 
 ### Using Docker
 
