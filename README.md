@@ -44,7 +44,7 @@ yda:
 
 | Environment Variable | Type | Default Value | Required | Explanation |
 | -------------------- | ---- | ------------- | -------- | ----------- |
-| `LOG_LEVEL` | `DEBUG` \| `INFO` \| `WARNING` \| `ERROR` \| `CRITICAL` \| | `INFO` | No | Detail of logs |
+| `LOG_LEVEL` | `DEBUG` \| `INFO` \| `WARNING` \| `ERROR` \| `CRITICAL` | `INFO` | No | Detail of logs |
 | `POLL_INTERVAL` | Integer | `300` | No | How often to check for new videos, in seconds |
 | `CHANNEL_IDS` | List of strings (JSON formatted) | `[]` | No | Channel IDs to monitor |
 | `DISCORD_WEBHOOK` | String | N/A | Yes | Discord webhook for a channel |
