@@ -6,20 +6,24 @@ Send a message to a Discord channel when new videos are posted by certain YouTub
 
 The app is distributed as the Docker image `ghcr.io/micthiesen/youtube-discord-alert`.
 
+It's useful to mount a data volume as a history file is maintained to prevent posting the same video more than once to Discord.
+
+To create a Discord webhook, [see here](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks).
+
+To create a YouTube API key, [see here](https://developers.google.com/youtube/registering_an_application). Create an API key (NOT OAuth) for the YouTube Data API.
+
 ### Using Docker
 
 ```bash
 docker run -d \
   --name=yda \
-  -e CHANNEL_IDS=["UCFrZFkoK9-cZf6LtOD0a_uw", "UCqIDB2oovYTOHx1lbMQxjtg"] \
+  -e CHANNEL_IDS='["UCFrZFkoK9-cZf6LtOD0a_uw", "UCqIDB2oovYTOHx1lbMQxjtg"]' \
   -e DISCORD_WEBHOOK=https://discordapp.com/api/webhooks/123/ABC \
   -e YOUTUBE_API_KEY=CHanGeMe \
   -v /path/to/data:/data \
   --restart unless-stopped \
   ghcr.io/micthiesen/youtube-discord-alert
 ```
-
-It's useful to mount a data volume as a history file is maintained to prevent posting the same video more than once to Discord.
 
 ### Using Docker Compose
 
