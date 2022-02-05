@@ -5,7 +5,6 @@ from pyyoutube import PlaylistItem
 from apis.utilities import post_with_retry
 from config import CONFIG
 
-
 LOGGER = logging.getLogger(__name__)
 YT_VIDEO_URL = "https://www.youtube.com/watch?v={0}"
 YT_CHANNEL_URL = "https://www.youtube.com/channel/{0}"

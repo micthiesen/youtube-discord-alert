@@ -4,7 +4,6 @@ from pyyoutube import Api, PlaylistItem
 
 from config import CONFIG
 
-
 API = Api(api_key=CONFIG.youtube_api_key)
 
 

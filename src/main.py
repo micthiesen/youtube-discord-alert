@@ -5,8 +5,7 @@ from time import sleep
 from apis.discord import notify_discord
 from apis.youtube import get_latest_channel_videos
 from config import CONFIG
-from history import History
-
+from history.json import JsonHistory
 
 LOGGING_FORMAT = "[%(levelname)s] [%(filename)s:%(lineno)d] <%(funcName)s> %(message)s"
 logging.basicConfig(format=LOGGING_FORMAT, level=CONFIG.log_level_parsed)
@@ -14,7 +13,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 def execution_loop():
-    history = History()
+    history = JsonHistory()
     while True:
         for channel_id in CONFIG.channel_ids:
             try:
@@ -26,7 +25,7 @@ def execution_loop():
         sleep(CONFIG.poll_interval)
 
 
-def check_for_updates(history: History, channel_id: str) -> None:
+def check_for_updates(history: JsonHistory, channel_id: str) -> None:
     LOGGER.info(f"Checking for updates on channel {channel_id}")
     history.ensure_channel_exists(channel_id)
     videos = get_latest_channel_videos(channel_id)
