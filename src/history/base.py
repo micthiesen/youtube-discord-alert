@@ -3,9 +3,9 @@ from abc import ABC, abstractmethod
 
 class BaseHistory(ABC):
     @abstractmethod
-    def mark_channel_first_seen(self, channel_id: str) -> None:
+    def ensure_channel_exists(self, channel_id: str) -> None:
         """
-        Save the channel's first seen date if it doesn't exist in the history yet
+        Ensure the channel exists in the history & mark first seen date if necessary
         """
 
     @abstractmethod

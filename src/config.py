@@ -13,6 +13,10 @@ class LogLevel(str, Enum):
     CRITICAL = "CRITICAL"
 
 
+class HistoryProvider(str, Enum):
+    JSON = "JSON"
+
+
 class Settings(BaseSettings):
     log_level: LogLevel = LogLevel.INFO
     poll_interval: int = 300
@@ -21,6 +25,8 @@ class Settings(BaseSettings):
     youtube_api_key: str
     latest_channel_videos_count: int = 10
     max_history_per_channel: int = 20
+
+    history_provider: HistoryProvider = HistoryProvider.JSON
 
     @property
     def log_level_parsed(self) -> int:

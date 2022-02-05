@@ -6,6 +6,7 @@ from typing import TextIO
 from config import CONFIG
 from history.base import BaseHistory
 
+
 HISTORY_FILE = "/data/history.json"
 LOGGER = logging.getLogger(__name__)
 
@@ -32,7 +33,7 @@ class JsonHistory(BaseHistory):
         if changes:
             write_history(self._history)
 
-    def video_before_channel_added(
+    def video_before_channel_first_seen(
         self, channel_id: str, video_published_at_str: str
     ) -> bool:
         try:
@@ -48,7 +49,7 @@ class JsonHistory(BaseHistory):
     def video_already_seen(self, channel_id: str, video_id: str) -> bool:
         return video_id in self._history.get(channel_id, {}).get("seen", [])
 
-    def mark_video_as_seen(self, channel_id: str, video_id: str) -> None:
+    def mark_video_seen(self, channel_id: str, video_id: str) -> None:
         self.ensure_channel_exists(channel_id)
         changes = False
         if video_id not in self._history[channel_id]["seen"]:

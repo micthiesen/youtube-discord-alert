@@ -14,20 +14,7 @@ To create a Discord webhook, [see here](https://support.discord.com/hc/en-us/art
 
 To create a YouTube API key, [see here](https://developers.google.com/youtube/registering_an_application). Create an API key for the YouTube Data API.
 
-### Using Docker
-
-```bash
-docker run -d \
-  --name=yda \
-  -e CHANNEL_IDS='["UCFrZFkoK9-cZf6LtOD0a_uw", "UCqIDB2oovYTOHx1lbMQxjtg"]' \
-  -e DISCORD_WEBHOOK=https://discordapp.com/api/webhooks/123/ABC \
-  -e YOUTUBE_API_KEY=CHanGeMe \
-  -v /path/to/data:/data \
-  --restart unless-stopped \
-  ghcr.io/micthiesen/youtube-discord-alert
-```
-
-### Using Docker Compose
+### Using Docker Compose (recommended)
 
 ```yml
 yda:
@@ -42,17 +29,30 @@ yda:
   restart: unless-stopped
 ```
 
+### Using Docker
+
+```bash
+docker run -d \
+  --name=yda \
+  -e CHANNEL_IDS='["UCFrZFkoK9-cZf6LtOD0a_uw", "UCqIDB2oovYTOHx1lbMQxjtg"]' \
+  -e DISCORD_WEBHOOK=https://discordapp.com/api/webhooks/123/ABC \
+  -e YOUTUBE_API_KEY=CHanGeMe \
+  -v /path/to/data:/data \
+  --restart unless-stopped \
+  ghcr.io/micthiesen/youtube-discord-alert
+```
+
 ### Options / Environment Variables
 
-| Environment Variable | Type | Default Value | Required | Explanation |
-| -------------------- | ---- | ------------- | -------- | ----------- |
-| `LOG_LEVEL` | `DEBUG` \| `INFO` \| `WARNING` \| `ERROR` \| `CRITICAL` | `INFO` | No | Detail of logs |
-| `POLL_INTERVAL` | Integer | `300` | No | How often to check for new videos, in seconds |
-| `CHANNEL_IDS` | List of strings (JSON formatted) | `[]` | No | Channel IDs to monitor |
-| `DISCORD_WEBHOOK` | String | N/A | Yes | Discord webhook for a channel |
-| `YOUTUBE_API_KEY` | String | N/A | Yes | YouTube API key |
-| `LATEST_CHANNEL_VIDEOS_COUNT` | Integer | `10` | No | How many videos to retrieve per channel when polling |
-| `MAX_HISTORY_PER_CHANNEL` | Integer | `20` | No | How many videos to keep track of per channel (to prevent duplicate posts). Should always be greater than `LATEST_CHANNEL_VIDEOS_COUNT` |
+| Environment Variable          | Type                                                    | Default Value | Required | Explanation                                                                                                                            |
+| ----------------------------- | ------------------------------------------------------- | ------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `LOG_LEVEL`                   | `DEBUG` \| `INFO` \| `WARNING` \| `ERROR` \| `CRITICAL` | `INFO`        | No       | Detail of logs                                                                                                                         |
+| `POLL_INTERVAL`               | Integer                                                 | `300`         | No       | How often to check for new videos, in seconds                                                                                          |
+| `CHANNEL_IDS`                 | List of strings (JSON formatted)                        | `[]`          | No       | Channel IDs to monitor                                                                                                                 |
+| `DISCORD_WEBHOOK`             | String                                                  | N/A           | Yes      | Discord webhook for a channel                                                                                                          |
+| `YOUTUBE_API_KEY`             | String                                                  | N/A           | Yes      | YouTube API key                                                                                                                        |
+| `LATEST_CHANNEL_VIDEOS_COUNT` | Integer                                                 | `10`          | No       | How many videos to retrieve per channel when polling                                                                                   |
+| `MAX_HISTORY_PER_CHANNEL`     | Integer                                                 | `20`          | No       | How many videos to keep track of per channel (to prevent duplicate posts). Should always be greater than `LATEST_CHANNEL_VIDEOS_COUNT` |
 
 ## Developing
 
