@@ -8,7 +8,33 @@ env:
   IMAGE_NAME: youtube-discord-alert
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.10"
+          cache: "pip"
+          cache-dependency-path: |
+            requirements.txt
+            requirements-dev.txt
+      - name: Install dependencies
+        run: python install -r requirements.txt
+      - name: Install dev dependencies
+        run: python install -r requirements-dev.txt
+      - name: Lint with Black
+        run: black --check src/**/*.py
+      - name: Lint with Flake8
+        run: flake8 src/**/*.py
+      - name: Lint with mypy
+        run: mypy src/**/*.py
+
   push:
+    needs: lint
     runs-on: ubuntu-latest
     permissions:
       packages: write

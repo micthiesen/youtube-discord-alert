@@ -2,10 +2,10 @@ import logging
 import traceback
 from time import sleep
 
+from apis.discord import notify_discord
+from apis.youtube import get_latest_channel_videos
 from config import CONFIG
-from discord import notify_discord
 from history import History
-from youtube import get_latest_channel_videos
 
 
 LOGGING_FORMAT = "[%(levelname)s] [%(filename)s:%(lineno)d] <%(funcName)s> %(message)s"

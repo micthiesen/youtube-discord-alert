@@ -1,7 +1,19 @@
 {
-	"folders": [
-		{
-			"path": "."
-		}
-	]
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "[python]": {
+      "editor.codeActionsOnSave": {
+        "source.organizeImports": true
+      },
+      "editor.formatOnSave": true
+    },
+    "python.linting.flake8Enabled": true,
+    "python.linting.mypyEnabled": true,
+    "python.formatting.provider": "black",
+    "python.sortImports.path": "isort"
+  }
 }

@@ -1,19 +1,20 @@
 import json
 import logging
 from datetime import datetime, timezone
-from io import TextIOWrapper
+from typing import TextIO
 
 from config import CONFIG
+from history.base import BaseHistory
 
 HISTORY_FILE = "/data/history.json"
 LOGGER = logging.getLogger(__name__)
 
 
-class History:
+class JsonHistory(BaseHistory):
     def __init__(self):
         self._history = read_history_safe()
 
-    def ensure_channel_exists(self, channel_id: str) -> bool:
+    def ensure_channel_exists(self, channel_id: str) -> None:
         changes = False
         if channel_id not in self._history:
             LOGGER.info(f"Channel {channel_id} not in history, adding it")
@@ -30,7 +31,6 @@ class History:
 
         if changes:
             write_history(self._history)
-        return changes
 
     def video_before_channel_added(
         self, channel_id: str, video_published_at_str: str
@@ -48,8 +48,9 @@ class History:
     def video_already_seen(self, channel_id: str, video_id: str) -> bool:
         return video_id in self._history.get(channel_id, {}).get("seen", [])
 
-    def mark_video_as_seen(self, channel_id: str, video_id: str) -> bool:
-        changes = self.ensure_channel_exists(channel_id)
+    def mark_video_as_seen(self, channel_id: str, video_id: str) -> None:
+        self.ensure_channel_exists(channel_id)
+        changes = False
         if video_id not in self._history[channel_id]["seen"]:
             self._history[channel_id]["seen"].insert(0, video_id)
             self._history[channel_id]["seen"] = self._history[channel_id]["seen"][
@@ -75,7 +76,7 @@ def read_history_safe() -> dict:
         return {}
 
 
-def json_load_safe(history_file: TextIOWrapper) -> dict:
+def json_load_safe(history_file: TextIO) -> dict:
     try:
         return json.loads(history_file.read())
     except json.JSONDecodeError:

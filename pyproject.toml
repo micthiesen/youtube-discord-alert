@@ -1,0 +1,4 @@
+[tool.isort]
+py_version = 310
+line_length = 88
+known_first_party = ["apis", "history", "models", "config"]

@@ -1,8 +1,8 @@
 import logging
 
 from pyyoutube import PlaylistItem
-from apis import post_with_retry
 
+from apis.utilities import post_with_retry
 from config import CONFIG
 
 
