@@ -12,7 +12,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 class JsonHistory(BaseHistory):
-    def __init__(self):
+    def __init__(self) -> None:
         self._history = read_history_safe()
 
     def ensure_channel_exists(self, channel_id: str) -> None:

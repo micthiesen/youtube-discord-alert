@@ -64,4 +64,6 @@ Requirements:
 
 Copy `.env.local.example` to `.env.local` and replace the `DISCORD_WEBHOOK` and `YOUTUBE_API_KEY` values.
 
-Run `./bin/dev.py` and the app will automatically restart when source files change.
+Run `./scripts/dev.py` and the app will automatically restart when source files change.
+
+Run `./scripts/lint.sh` to run linting.

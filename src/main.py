@@ -13,7 +13,7 @@ logging.basicConfig(format=LOGGING_FORMAT, level=CONFIG.log_level_parsed)
 LOGGER = logging.getLogger(__name__)
 
 
-def execution_loop():
+def execution_loop() -> None:
     history = get_history_from_config()
     while True:
         for channel_id in CONFIG.channel_ids:

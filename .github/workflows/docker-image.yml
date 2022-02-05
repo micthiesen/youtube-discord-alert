@@ -26,12 +26,8 @@ jobs:
         run: python install -r requirements.txt
       - name: Install dev dependencies
         run: python install -r requirements-dev.txt
-      - name: Lint with Black
-        run: black --check src/**/*.py
-      - name: Lint with Flake8
-        run: flake8 src/**/*.py
-      - name: Lint with mypy
-        run: mypy src/**/*.py
+      - name: Run linters
+        run: ./scripts/lint.sh
 
   push:
     needs: lint

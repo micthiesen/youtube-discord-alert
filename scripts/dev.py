@@ -5,15 +5,15 @@ Execute the app & restart it when there are source file changes.
 This is totally overbuilt. Deal with it.
 """
 import sys
-import time
 import threading
+import time
 from pathlib import Path
 
 import docker
 from dotenv import dotenv_values
 from pyrate_limiter import BucketFullException, Duration, Limiter, RequestRate
+from watchdog.events import FileSystemEvent, PatternMatchingEventHandler
 from watchdog.observers import Observer
-from watchdog.events import PatternMatchingEventHandler
 
 
 ENVIRONMENT = dotenv_values(".env.local")
@@ -27,7 +27,7 @@ PATH_TO_OBSERVE = str(Path(__name__).parent.joinpath("src").absolute())
 LIMITER = Limiter(RequestRate(1, Duration.SECOND))
 
 
-def start_container():
+def start_container() -> None:
     global DOCKER_CONTAINER
 
     kill_container()
@@ -51,7 +51,7 @@ def start_container():
     container = DOCKER_CONTAINER
     print(f"Created container {container.short_id}")
 
-    def print_container_logs():
+    def print_container_logs() -> None:
         try:
             for log in container.logs(stream=True):
                 sys.stdout.write(log.decode("utf-8"))
@@ -61,7 +61,7 @@ def start_container():
     threading.Thread(target=print_container_logs).start()
 
 
-def restart_container(event_path, event_type):
+def restart_container(event_path: str, event_type: str) -> None:
     try:
         LIMITER.try_acquire("process")
     except BucketFullException:
@@ -70,24 +70,24 @@ def restart_container(event_path, event_type):
     start_container()
 
 
-def kill_container():
+def kill_container() -> None:
     global DOCKER_CONTAINER
     if DOCKER_CONTAINER:
         print(f"Stopping and removing container {DOCKER_CONTAINER.short_id}")
         try:
             DOCKER_CONTAINER.remove(force=True)
-        except docker.errors.APIError as err:
+        except docker.errors.APIError:
             pass
 
 
 class SrcChangeHandler(PatternMatchingEventHandler):
-    def on_modified(self, event):
+    def on_modified(self, event: FileSystemEvent) -> None:
         restart_container(event.src_path, event.event_type)
 
-    def on_created(self, event):
+    def on_created(self, event: FileSystemEvent) -> None:
         restart_container(event.src_path, event.event_type)
 
-    def on_deleted(self, event):
+    def on_deleted(self, event: FileSystemEvent) -> None:
         restart_container(event.src_path, event.event_type)
 
 
