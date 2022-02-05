@@ -1,8 +1,8 @@
 from typing import Dict, Type
 
-from config import CONFIG, HistoryProvider
 from history.base import BaseHistory
 from history.json import JsonHistory
+from utilities.config import CONFIG, HistoryProvider
 
 
 _HISTORY_PROVIDER_MAP: Dict[HistoryProvider, Type[BaseHistory]] = {

@@ -3,8 +3,8 @@ import logging
 from datetime import datetime, timezone
 from typing import TextIO
 
-from config import CONFIG
 from history.base import BaseHistory
+from utilities.config import CONFIG
 
 
 HISTORY_FILE = "/data/history.json"

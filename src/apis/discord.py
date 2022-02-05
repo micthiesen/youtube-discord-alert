@@ -1,9 +1,12 @@
 import logging
+from typing import Any
 
+import requests
 from pyyoutube import PlaylistItem
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 
-from apis.utilities import post_with_retry
-from config import CONFIG
+from utilities.config import CONFIG
 
 
 LOGGER = logging.getLogger(__name__)
@@ -13,7 +16,7 @@ YT_CHANNEL_URL = "https://www.youtube.com/channel/{0}"
 
 def notify_discord(video: PlaylistItem) -> None:
     LOGGER.info('Sending notification for video "%s"', video.snippet.title)
-    response = post_with_retry(
+    response = _post_with_retry(
         CONFIG.discord_webhook,
         json={
             "content": (
@@ -23,3 +26,16 @@ def notify_discord(video: PlaylistItem) -> None:
         },
     )
     response.raise_for_status()
+
+
+def _post_with_retry(url: str, **kwargs: Any) -> requests.Response:
+    session = requests.Session()
+    retries = Retry(
+        total=5,
+        backoff_factor=1,
+        respect_retry_after_header=False,
+        status_forcelist=[429],
+        allowed_methods=[*Retry.DEFAULT_ALLOWED_METHODS, "POST"],
+    )
+    session.mount("https://", HTTPAdapter(max_retries=retries))
+    return session.post(url, **kwargs)
