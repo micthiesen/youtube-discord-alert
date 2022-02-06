@@ -6,6 +6,7 @@ isort==5.10.1
 mypy==0.931
 pyrate-limiter==2.6.0
 python-dotenv==0.19.2
+sqlalchemy-stubs==0.4
 types-requests==2.27.8
 types-urllib3==1.26.9
 watchdog==2.1.6
