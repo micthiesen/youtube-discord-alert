@@ -1,8 +1,9 @@
 [tool.isort]
 py_version = 310
+profile = "black"
 line_length = 88
 lines_after_imports = 2
-known_first_party = ["apis", "history", "models", "config"]
+known_first_party = ["api", "entrypoints", "history", "models", "services", "utilities"]
 
 [tool.mypy]
 python_version = "3.10"

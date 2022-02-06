@@ -17,6 +17,7 @@ class LogLevel(str, Enum):
 class Entrypoint(str, Enum):
     WATCHER = "WATCHER"
     WEBSERVER = "WEBSERVER"
+    WATCHER_AND_WEBSERVER = "WATCHER_AND_WEBSERVER"
 
 
 class HistoryProvider(str, Enum):
