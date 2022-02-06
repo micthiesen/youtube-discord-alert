@@ -7,7 +7,6 @@ from history.base import BaseHistory
 from utilities.config import CONFIG
 
 
-HISTORY_FILE = "/data/history.json"
 LOGGER = logging.getLogger(__name__)
 
 
@@ -64,14 +63,14 @@ class JsonHistory(BaseHistory):
 
 
 def write_history(history: dict) -> None:
-    with open(HISTORY_FILE, "w") as history_file:
+    with open(CONFIG.history_json_file, "w") as history_file:
         history_file.seek(0)
         json.dump(history, history_file)
 
 
 def read_history_safe() -> dict:
     try:
-        with open(HISTORY_FILE, "r") as history_file:
+        with open(CONFIG.history_json_file, "r") as history_file:
             return json_load_safe(history_file)
     except FileNotFoundError:
         return {}

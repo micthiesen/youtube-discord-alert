@@ -96,7 +96,7 @@ if __name__ == "__main__":
 
     event_handler = SrcChangeHandler(patterns=["*.py"])
     observer = Observer()
-    observer.schedule(event_handler, path=PATH_TO_OBSERVE, recursive=False)
+    observer.schedule(event_handler, path=PATH_TO_OBSERVE, recursive=True)
     observer.start()
     try:
         while True:

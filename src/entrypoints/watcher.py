@@ -11,7 +11,7 @@ from utilities.config import CONFIG
 LOGGER = logging.getLogger(__name__)
 
 
-def start_watcher() -> None:
+def entrypoint() -> None:
     LOGGER.info("Starting watcher...")
     history = get_history_from_config()
     while True:
