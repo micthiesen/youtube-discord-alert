@@ -1,11 +1,13 @@
 from typing import Callable, Dict
 
 from entrypoints.watcher import entrypoint as watcher_entrypoint
+from entrypoints.webserver import entrypoint as webserver_entrypoint
 from utilities.config import CONFIG, Entrypoint
 
 
 _ENTRYPOINT_MAP: Dict[Entrypoint, Callable[[], None]] = {
-    Entrypoint.WATCHER: watcher_entrypoint
+    Entrypoint.WATCHER: watcher_entrypoint,
+    Entrypoint.WEBSERVER: webserver_entrypoint,
 }
 
 

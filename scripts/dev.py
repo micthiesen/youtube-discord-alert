@@ -46,6 +46,7 @@ def start_container() -> None:
         auto_remove=True,
         environment=ENVIRONMENT,
         volumes=[f"{PATH_TO_PROCESS}/data:/data"],
+        ports={"5777/tcp": "5777"},
     )
 
     container = DOCKER_CONTAINER

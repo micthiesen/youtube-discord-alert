@@ -2,9 +2,9 @@ import logging
 import traceback
 from time import sleep
 
-from apis.discord import notify_discord
-from apis.youtube import get_latest_channel_videos
 from history import BaseHistory, get_history_from_config
+from services.discord import notify_discord
+from services.youtube import get_latest_channel_videos
 from utilities.config import CONFIG
 from utilities.youtube import parse_youtube_datetime
 
