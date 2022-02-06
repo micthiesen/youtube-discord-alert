@@ -30,7 +30,7 @@ class Settings(BaseSettings):
     discord_webhook: str
     youtube_api_key: str
     latest_channel_videos_count: int = 10
-    max_history_per_channel: int = 20
+    max_history_per_channel: int = 30
 
     # Currently undocumented settings
     entrypoint: Entrypoint = Entrypoint.WATCHER

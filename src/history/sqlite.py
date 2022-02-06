@@ -1,11 +1,13 @@
 import logging
 from datetime import datetime, timezone
 
+from sqlalchemy import desc
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.exc import NoResultFound
 
 from history.base import BaseHistory
 from models import Channel, Video
+from utilities.config import CONFIG
 from utilities.sqlite import ENGINE, utc_aware
 
 
@@ -54,3 +56,13 @@ class SqliteHistory(BaseHistory):
         )
         with self.Session.begin() as session:  # type: ignore
             session.add(video)
+        with self.Session.begin() as session:  # type: ignore
+            to_delete = (
+                session.query(Video)
+                .filter_by(channel_id=channel_id)
+                .order_by(desc(Video.notification_sent))
+                .offset(CONFIG.max_history_per_channel)
+                .all()
+            )
+            for video in to_delete:
+                session.delete(video)
