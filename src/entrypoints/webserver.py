@@ -2,7 +2,7 @@ import logging
 
 import uvicorn
 
-from api import APP
+from routers import APP
 from utilities.config import CONFIG
 
 
