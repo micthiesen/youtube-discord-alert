@@ -1,3 +1,4 @@
+import json
 import logging
 from enum import Enum
 from typing import List
@@ -31,6 +32,14 @@ class Settings(BaseSettings):
     @property
     def log_level_parsed(self) -> int:
         return getattr(logging, self.log_level.value)
+
+    def to_string(self, line_prefix: str = "") -> str:
+        sensitive_keys = {"discord_webhook", "youtube_api_key"}
+        return "\n".join(
+            f"{line_prefix}{key.upper()}: {json.dumps(value)}"
+            for key, value in self
+            if key not in sensitive_keys
+        )
 
 
 CONFIG = Settings()

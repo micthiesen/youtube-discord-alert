@@ -10,5 +10,5 @@ LOGGER = logging.getLogger(__name__)
 
 
 if __name__ == "__main__":
-    LOGGER.info("Using config: %s", CONFIG)
+    LOGGER.info("Using config:\n%s", CONFIG.to_string(" ---> "))
     start_watcher()

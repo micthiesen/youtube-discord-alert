@@ -92,7 +92,6 @@ class SrcChangeHandler(PatternMatchingEventHandler):
 
 
 if __name__ == "__main__":
-    print(f"Using environment: {dict(ENVIRONMENT)}")
     start_container()
 
     event_handler = SrcChangeHandler(patterns=["*.py"])
