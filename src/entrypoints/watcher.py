@@ -6,6 +6,7 @@ from apis.discord import notify_discord
 from apis.youtube import get_latest_channel_videos
 from history import BaseHistory, get_history_from_config
 from utilities.config import CONFIG
+from utilities.youtube import parse_youtube_datetime
 
 
 LOGGER = logging.getLogger(__name__)
@@ -31,10 +32,10 @@ def _check_for_updates(history: BaseHistory, channel_id: str) -> None:
     videos = get_latest_channel_videos(channel_id)
     for video in videos:
         video_id = video.snippet.resourceId.videoId
-        published_at = video.snippet.publishedAt
+        published_at = parse_youtube_datetime(video.snippet.publishedAt)
         if history.video_before_channel_first_seen(channel_id, published_at):
             continue
         if history.video_already_seen(channel_id, video_id):
             continue
         notify_discord(video)
-        history.mark_video_seen(channel_id, video_id)
+        history.mark_video_notified(channel_id, video_id)

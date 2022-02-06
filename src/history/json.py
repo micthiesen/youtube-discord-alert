@@ -33,22 +33,19 @@ class JsonHistory(BaseHistory):
             write_history(self._history)
 
     def video_before_channel_first_seen(
-        self, channel_id: str, video_published_at_str: str
+        self, channel_id: str, video_published_at: datetime
     ) -> bool:
         try:
             added_str = self._history[channel_id]["added"]
         except KeyError:
             return False
         added = datetime.fromisoformat(added_str)
-        video_published_at = datetime.fromisoformat(
-            video_published_at_str.replace("Z", "+00:00")
-        )
         return video_published_at < added
 
     def video_already_seen(self, channel_id: str, video_id: str) -> bool:
         return video_id in self._history.get(channel_id, {}).get("seen", [])
 
-    def mark_video_seen(self, channel_id: str, video_id: str) -> None:
+    def mark_video_notified(self, channel_id: str, video_id: str) -> None:
         self.ensure_channel_exists(channel_id)
         changes = False
         if video_id not in self._history[channel_id]["seen"]:

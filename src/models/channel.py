@@ -7,7 +7,7 @@ from .base import Base
 
 
 if TYPE_CHECKING:
-    from models import *  # noqa: F401, F403
+    from models import Video  # noqa: F401
 
 
 class Channel(Base):

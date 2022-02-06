@@ -35,7 +35,7 @@ class Settings(BaseSettings):
     # Currently undocumented settings
     entrypoint: Entrypoint = Entrypoint.WATCHER
     sqlite_db_file: str = "/data/db.sqlite3"
-    history_provider: HistoryProvider = HistoryProvider.JSON
+    history_provider: HistoryProvider = HistoryProvider.SQLITE
     history_json_file: str = "/data/history.json"
 
     @property

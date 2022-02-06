@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from datetime import datetime
 
 
 class BaseHistory(ABC):
@@ -10,7 +11,7 @@ class BaseHistory(ABC):
 
     @abstractmethod
     def video_before_channel_first_seen(
-        self, channel_id: str, video_published_at_str: str
+        self, channel_id: str, video_published_at: datetime
     ) -> bool:
         """
         Return whether or not the video is from before the channel was first seen
@@ -23,7 +24,7 @@ class BaseHistory(ABC):
         """
 
     @abstractmethod
-    def mark_video_seen(self, channel_id: str, video_id: str) -> None:
+    def mark_video_notified(self, channel_id: str, video_id: str) -> None:
         """
-        Mark the video as seen in the history
+        Mark the video as seen/notified in the history
         """
