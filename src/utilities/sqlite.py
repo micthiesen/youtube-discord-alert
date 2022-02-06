@@ -8,7 +8,7 @@ from sqlalchemy.pool import NullPool
 from sqlalchemy.sql import text
 
 from models.base import Base
-from utilities.config import CONFIG, Entrypoint, LogLevel
+from utilities.config import CONFIG, LogLevel
 
 
 MODULE_DIR = os.path.dirname(__file__)
@@ -21,22 +21,10 @@ ENGINE = create_engine(
 LOGGER = logging.getLogger(__name__)
 
 
-def is_using_sqlite() -> bool:
-    return CONFIG.history_provider == "sqlite" or CONFIG.entrypoint in {
-        Entrypoint.WATCHER_AND_WEBSERVER,
-        Entrypoint.WEBSERVER,
-    }
-
-
 def initialize_db() -> None:
     LOGGER.debug("Initializing SQLite database")
     Base.metadata.create_all(ENGINE)
     run_migrations()
-
-
-def initialize_db_if_needed() -> None:
-    if is_using_sqlite():
-        initialize_db()
 
 
 def run_migrations() -> None:

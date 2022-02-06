@@ -1,13 +1,11 @@
 from typing import Dict, Type
 
 from history.base import BaseHistory
-from history.json import JsonHistory
 from history.sqlite import SqliteHistory
 from utilities.config import CONFIG, HistoryProvider
 
 
 _HISTORY_PROVIDER_MAP: Dict[HistoryProvider, Type[BaseHistory]] = {
-    HistoryProvider.JSON: JsonHistory,
     HistoryProvider.SQLITE: SqliteHistory,
 }
 

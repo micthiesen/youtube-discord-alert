@@ -21,7 +21,6 @@ class Entrypoint(str, Enum):
 
 
 class HistoryProvider(str, Enum):
-    JSON = "JSON"
     SQLITE = "SQLITE"
 
 
@@ -38,7 +37,6 @@ class Settings(BaseSettings):
     entrypoint: Entrypoint = Entrypoint.WATCHER
     sqlite_db_file: str = "/data/db.sqlite3"
     history_provider: HistoryProvider = HistoryProvider.SQLITE
-    history_json_file: str = "/data/history.json"
     webserver_port: int = 5777
 
     @property
