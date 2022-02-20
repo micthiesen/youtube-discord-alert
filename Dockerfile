@@ -1,9 +1,21 @@
+FROM node:16-slim AS frontend-build
+
+COPY src/frontend /build
+WORKDIR /build
+RUN npm install
+
+ENV NODE_ENV=production
+RUN npm run build
+
 FROM python:3.10-slim
 ENV PYTHONUNBUFFERED=1
 
-COPY requirements.txt /app/
-RUN pip install -r /app/requirements.txt
+COPY --from=frontend-build /build/dist /www
 
-COPY src/backend /app/backend
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+RUN rm requirements.txt
+
+COPY src/backend /app
 EXPOSE 5777:5777
-ENTRYPOINT [ "python", "/app/backend/main.py" ]
+ENTRYPOINT [ "python", "/app/main.py" ]
