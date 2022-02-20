@@ -1,6 +1,6 @@
 FROM node:16-slim AS frontend-build
 
-COPY src/frontend /build
+COPY packages/frontend /build
 WORKDIR /build
 RUN npm install
 
@@ -16,6 +16,6 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 RUN rm requirements.txt
 
-COPY src/backend /app
+COPY packages/backend /app
 EXPOSE 5777:5777
 ENTRYPOINT [ "python", "/app/main.py" ]

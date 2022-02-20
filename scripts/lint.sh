@@ -7,6 +7,6 @@ cd "$SCRIPT_DIR"/..
 
 set -x
 
-black --check scripts src/backend
-flake8 --benchmark scripts src/backend
-mypy scripts src/backend
+black --check scripts packages/backend
+flake8 --benchmark scripts packages/backend
+mypy scripts packages/backend

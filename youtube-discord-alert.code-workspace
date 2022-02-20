@@ -16,7 +16,8 @@
     "python.formatting.provider": "black",
     "python.sortImports.path": "isort",
     "task.autoDetect": "off",
-    "terminal.integrated.tabs.enableAnimation": false
+    "terminal.integrated.tabs.enableAnimation": false,
+    "typescript.tsdk": "packages/frontend/node_modules/typescript/lib"
   },
   "tasks": {
     "version": "2.0.0",
@@ -32,7 +33,7 @@
         "type": "shell",
         "command": "npm run dev",
         "options": {
-          "cwd": "./src/frontend"
+          "cwd": "./packages/frontend"
         },
         "group": "build"
       }
