@@ -16,13 +16,15 @@ from watchdog.events import FileSystemEvent, PatternMatchingEventHandler
 from watchdog.observers import Observer
 
 
-ENVIRONMENT = dotenv_values(".env.local")
-
 DOCKER_CLIENT = docker.from_env()
 DOCKER_CONTAINER = None
 
 PATH_TO_PROCESS = str(Path(__name__).parent.absolute())
-PATH_TO_OBSERVE = str(Path(__name__).parent.joinpath("src").absolute())
+PATHS_TO_OBSERVE = [
+    str(Path(__name__).parent.joinpath(".env.local").absolute()),
+    str(Path(__name__).parent.joinpath("requirements.txt").absolute()),
+    str(Path(__name__).parent.joinpath("src").absolute()),
+]
 
 LIMITER = Limiter(RequestRate(1, Duration.SECOND))
 
@@ -44,7 +46,7 @@ def start_container() -> None:
         detach=True,
         remove=True,
         auto_remove=True,
-        environment=ENVIRONMENT,
+        environment=dotenv_values(".env.local"),
         volumes=[f"{PATH_TO_PROCESS}/data:/data"],
         ports={"5777/tcp": "5777"},
     )
@@ -95,9 +97,10 @@ class SrcChangeHandler(PatternMatchingEventHandler):
 if __name__ == "__main__":
     start_container()
 
-    event_handler = SrcChangeHandler(patterns=["*.py"])
+    event_handler = SrcChangeHandler(patterns=["*.py", "*.ts", "*.tsx"])
     observer = Observer()
-    observer.schedule(event_handler, path=PATH_TO_OBSERVE, recursive=True)
+    for path in PATHS_TO_OBSERVE:
+        observer.schedule(event_handler, path=path, recursive=True)
     observer.start()
     try:
         while True:

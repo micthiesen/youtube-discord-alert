@@ -1,9 +1,12 @@
 import json
 import logging
 from enum import Enum
-from typing import List
+from typing import List, Literal
 
 from pydantic import BaseSettings
+
+
+CHANNEL_IDS_SQLITE = Literal["SQLITE"]
 
 
 class LogLevel(str, Enum):
@@ -27,7 +30,7 @@ class HistoryProvider(str, Enum):
 class Settings(BaseSettings):
     log_level: LogLevel = LogLevel.INFO
     poll_interval: int = 300
-    channel_ids: List[str] = []
+    channel_ids: List[str] | CHANNEL_IDS_SQLITE = []
     discord_webhook: str
     youtube_api_key: str
     latest_channel_videos_count: int = 10

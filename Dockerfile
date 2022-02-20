@@ -4,6 +4,6 @@ ENV PYTHONUNBUFFERED=1
 COPY requirements.txt /app/
 RUN pip install -r /app/requirements.txt
 
-COPY src /app/src
+COPY src/backend /app/backend
 EXPOSE 5777:5777
-ENTRYPOINT [ "python", "/app/src/main.py" ]
+ENTRYPOINT [ "python", "/app/backend/main.py" ]
