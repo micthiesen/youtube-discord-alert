@@ -14,6 +14,28 @@
     "python.linting.flake8Enabled": true,
     "python.linting.mypyEnabled": true,
     "python.formatting.provider": "black",
-    "python.sortImports.path": "isort"
+    "python.sortImports.path": "isort",
+    "task.autoDetect": "off",
+    "terminal.integrated.tabs.enableAnimation": false
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Backend",
+        "type": "shell",
+        "command": "./scripts/dev.py",
+        "group": "build"
+      },
+      {
+        "label": "Frontend",
+        "type": "shell",
+        "command": "npm run dev",
+        "options": {
+          "cwd": "./src/frontend"
+        },
+        "group": "build"
+      }
+    ]
   }
 }

@@ -23,7 +23,7 @@ PATH_TO_PROCESS = str(Path(__name__).parent.absolute())
 PATHS_TO_OBSERVE = [
     str(Path(__name__).parent.joinpath(".env.local").absolute()),
     str(Path(__name__).parent.joinpath("requirements.txt").absolute()),
-    str(Path(__name__).parent.joinpath("src").absolute()),
+    str(Path(__name__).parent.joinpath("src/backend").absolute()),
 ]
 
 LIMITER = Limiter(RequestRate(1, Duration.SECOND))
