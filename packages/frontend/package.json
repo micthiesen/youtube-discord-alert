@@ -1,7 +1,7 @@
 {
-  "name": "vite-template-solid",
-  "version": "0.0.0",
-  "description": "",
+  "name": "youtube-discord-alert-frontend",
+  "version": "0.0.1",
+  "private": true,
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -15,5 +15,11 @@
     "vite": "^2.8.0",
     "vite-plugin-solid": "^2.2.5",
     "vite-plugin-windicss": "^1.7.0"
+  },
+  "dependencies": {
+    "@felte/solid": "^1.0.0",
+    "solid-zustand": "^1.2.0",
+    "zod": "^3.11.6",
+    "zustand": "^3.7.0"
   }
 }

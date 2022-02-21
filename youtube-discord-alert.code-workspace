@@ -11,13 +11,20 @@
       },
       "editor.formatOnSave": true
     },
+    "[typescriptreact]": {
+      "editor.quickSuggestions": {
+        "strings": true
+      }
+    },
+    "css.validate": false,
     "python.linting.flake8Enabled": true,
     "python.linting.mypyEnabled": true,
     "python.formatting.provider": "black",
     "python.sortImports.path": "isort",
     "task.autoDetect": "off",
     "terminal.integrated.tabs.enableAnimation": false,
-    "typescript.tsdk": "packages/frontend/node_modules/typescript/lib"
+    "typescript.tsdk": "packages/frontend/node_modules/typescript/lib",
+    "windicss.sortOnSave": true
   },
   "tasks": {
     "version": "2.0.0",

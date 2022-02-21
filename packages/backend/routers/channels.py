@@ -1,7 +1,8 @@
 import logging
 from datetime import datetime, timezone
 
-from fastapi import APIRouter, Form, HTTPException
+from fastapi import APIRouter, HTTPException
+from pydantic import BaseModel
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.exc import NoResultFound
 
@@ -15,18 +16,24 @@ ROUTER = APIRouter()
 Session = sessionmaker(bind=ENGINE.connect(), expire_on_commit=False)
 
 
+class CreateChannelPayload(BaseModel):
+    channel_id: str
+
+
 @ROUTER.post("", status_code=201)
-async def create_channel(channel_id: str = Form(...)) -> None:
+async def create_channel(payload: CreateChannelPayload) -> None:
     try:
-        get_channel(channel_id=channel_id)
+        get_channel(channel_id=payload.channel_id)
     except YoutubeError as err:
         raise HTTPException(status_code=400, detail=str(err))
     with Session.begin() as session:  # type: ignore
         try:
-            channel = session.query(Channel).filter_by(channel_id=channel_id).one()
+            channel = (
+                session.query(Channel).filter_by(channel_id=payload.channel_id).one()
+            )
         except NoResultFound:
             first_seen = datetime.now(timezone.utc)
-            channel = Channel(channel_id=channel_id, first_seen=first_seen)
+            channel = Channel(channel_id=payload.channel_id, first_seen=first_seen)
             session.add(channel)
         else:
             if channel.deleted:
